@@ -5,6 +5,9 @@ import processing.core.*;
 public class SnakeGame extends PApplet {
 	
 	Snake snake;
+	Food food;
+	int size = 20;
+	public int growthConstant = 5;
 
     // The argument passed to main must match the class name
     public static void main(String[] args) {
@@ -17,14 +20,26 @@ public class SnakeGame extends PApplet {
     }
 
     public void setup(){
-        frameRate(20);
-        snake = new Snake(this);
+        frameRate(15);
+        snake = new Snake(this, size, growthConstant);
+        food = new Food(this, size);
     }
 
-    public void draw(){
+    @SuppressWarnings("unlikely-arg-type")
+	public void draw(){
     	background(0);
-    	snake.move();
-    	snake.show();
+    	
+    	if (snake.eat(food)) {
+    		do {
+    			food.randomizeLocation();
+    		} while (snake.tail.contains(food));
+    	}
+    	food.show();
+    	if (!snake.move()) { // snake dies
+    		snake.showDeath();
+    	} else {
+        	snake.show();
+    	}
     }
     
     @Override
@@ -42,7 +57,10 @@ public class SnakeGame extends PApplet {
 		case RIGHT:
 			snake.changeDirection(1, 0);
 			break;
-
+		case 32: // space bar
+			setup();
+			break;
+			
 		default:
 			break;
 		}
