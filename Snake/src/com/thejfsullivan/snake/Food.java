@@ -28,11 +28,11 @@ public class Food extends Cell {
 	}
 	
 	public void randomizeLocation() {
-		int cols = p.width / size;
-		int rows = p.height / size;
+		int cols = (p.width / size) - 2;
+		int rows = (p.height / size) - 2;
 		
-		x = (int) Math.floor(rand.nextInt(cols)) * size;
-		y = (int) Math.floor(rand.nextInt(rows)) * size;
+		x = size + (int) Math.floor(rand.nextInt(cols)) * size;
+		y = size + (int) Math.floor(rand.nextInt(rows)) * size;
 	}
 
 }

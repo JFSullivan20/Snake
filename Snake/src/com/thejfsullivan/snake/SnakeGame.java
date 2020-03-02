@@ -7,7 +7,9 @@ public class SnakeGame extends PApplet {
 	Snake snake;
 	Food food;
 	int size = 20;
-	public int growthConstant = 5;
+	public int growthConstant = 1;
+	
+	PFont font;
 
     // The argument passed to main must match the class name
     public static void main(String[] args) {
@@ -23,11 +25,25 @@ public class SnakeGame extends PApplet {
         frameRate(15);
         snake = new Snake(this, size, growthConstant);
         food = new Food(this, size);
+        
+        font = createFont("Hack Bold",16,true);
+        textFont(font);
+        String[] fontList = PFont.list();
+        printArray(fontList);
     }
 
     @SuppressWarnings("unlikely-arg-type")
 	public void draw(){
     	background(0);
+    	
+    	// show border
+    	fill(255,0,0);
+    	for (int i = 1; i < width / size; i++ ) {
+    		rect(i * size, size, size, size);
+    		rect(i * size, height - size, size, size);
+    		rect(0, i * size, size, size);
+    		rect(width - size, i * size, size, size);
+    	}
     	
     	if (snake.eat(food)) {
     		do {
@@ -40,6 +56,8 @@ public class SnakeGame extends PApplet {
     	} else {
         	snake.show();
     	}
+    	
+    	snake.displayScore();
     }
     
     @Override
@@ -62,6 +80,7 @@ public class SnakeGame extends PApplet {
 			break;
 			
 		default:
+			System.out.println("KeyPressed Default");
 			break;
 		}
     }
