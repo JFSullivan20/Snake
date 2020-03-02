@@ -13,7 +13,7 @@ public class SnakeGame extends PApplet {
 	Snake snake;
 	Food food;
 	int size = 20;
-	public int growthConstant = 100;
+	public int growthConstant = 4;
 	
 	PFont font;
 	float fontSize = 24;
