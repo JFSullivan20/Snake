@@ -1,5 +1,11 @@
 package com.thejfsullivan.snake;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import processing.core.*;
 
 public class SnakeGame extends PApplet {
@@ -10,6 +16,9 @@ public class SnakeGame extends PApplet {
 	public int growthConstant = 1;
 	
 	PFont font;
+	float fontSize = 24;
+	int highScore = 0;
+	String highScoreFile = "Scores/HighScores.txt";
 
     // The argument passed to main must match the class name
     public static void main(String[] args) {
@@ -25,14 +34,12 @@ public class SnakeGame extends PApplet {
         frameRate(15);
         snake = new Snake(this, size, growthConstant);
         food = new Food(this, size);
-        
-        font = createFont("Hack Bold",16,true);
+        font = createFont("Fonts/joystix monospace.ttf", 16);
         textFont(font);
-        String[] fontList = PFont.list();
-        printArray(fontList);
+        highScore = getHighScore(highScoreFile);
     }
 
-    @SuppressWarnings("unlikely-arg-type")
+	@SuppressWarnings("unlikely-arg-type")
 	public void draw(){
     	background(0);
     	
@@ -53,11 +60,12 @@ public class SnakeGame extends PApplet {
     	food.show();
     	if (!snake.move()) { // snake dies
     		snake.showDeath();
+    		updateHighScore(highScoreFile);
     	} else {
         	snake.show();
     	}
     	
-    	snake.displayScore();
+    	highScore = snake.displayScore(highScore, fontSize);
     }
     
     @Override
@@ -82,6 +90,32 @@ public class SnakeGame extends PApplet {
 		default:
 			System.out.println("KeyPressed Default");
 			break;
+		}
+    }
+
+    private int getHighScore(String string) {
+    	File file = new File(string);
+		Scanner input = null;
+		int n = -1;
+		try {
+			input = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("File unable to load high score");
+		}
+		if (input != null && input.hasNextInt()) {
+			n = input.nextInt();
+		}
+		input.close();
+		return n;
+	}
+    
+    private void updateHighScore(String string) {
+    	try {
+			FileWriter fw = new FileWriter(string);
+			fw.write(highScore + "\n");
+			fw.close();
+		} catch (IOException e) {
+			System.out.println("Unable to update high score");
 		}
     }
 }

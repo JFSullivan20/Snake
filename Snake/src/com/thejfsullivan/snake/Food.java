@@ -23,16 +23,16 @@ public class Food extends Cell {
 	}
 	
 	public void show() {
-		p.fill(255, 0, 0);
+		p.fill(0, 255, 0);
 		p.rect(x, y, size, size);
 	}
 	
 	public void randomizeLocation() {
 		int cols = (p.width / size) - 2;
-		int rows = (p.height / size) - 2;
+		int rows = (p.height / size) - 3;
 		
 		x = size + (int) Math.floor(rand.nextInt(cols)) * size;
-		y = size + (int) Math.floor(rand.nextInt(rows)) * size;
+		y = size * 2 + (int) Math.floor(rand.nextInt(rows)) * size;
 	}
 
 }
