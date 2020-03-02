@@ -127,7 +127,7 @@ public class Snake {
 		return tail.contains(head);
 	}
 	
-	private class BodyPart extends Cell {
+	class BodyPart extends Cell {
 		private BodyPart(int x, int y) {
 			super(x, y);
 		}

@@ -13,7 +13,7 @@ public class SnakeGame extends PApplet {
 	Snake snake;
 	Food food;
 	int size = 20;
-	public int growthConstant = 1;
+	public int growthConstant = 100;
 	
 	PFont font;
 	float fontSize = 24;
@@ -55,7 +55,7 @@ public class SnakeGame extends PApplet {
     	if (snake.eat(food)) {
     		do {
     			food.randomizeLocation();
-    		} while (snake.tail.contains(food));
+    		} while (snake.tail.contains(food) || snake.head.equals(food));
     	}
     	food.show();
     	if (!snake.move()) { // snake dies
